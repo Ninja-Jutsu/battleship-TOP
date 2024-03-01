@@ -1,8 +1,8 @@
 class Ship { // Ships class
     constructor(name, length, position) {
         this.name = name,
-            this.length = length,
-            this.position = position
+        this.length = length,
+        this.position = position
         this.hit = 0
         this.sunk = false
     }
@@ -19,28 +19,47 @@ class Ship { // Ships class
         return this.position
     }
     isHit() {
-        if (this.hit < 5) {
+        if (this.hit < this.length) {
             this.hit++
         }
         return this.hit
     }
     isSunk() {
-        if (this.hit === 5) {
+        if (this.hit === this.length) {
             this.sunk = true
         }
         return this.sunk
     }
 }
 
-// Ships creator:
-// function createShips(shipName, shipLength, shipPosition){
-//     return new Ship(shipName, shipLength, shipPosition, 0, false)
-// }
+class Fleet {
+    constructor(fleetName) {
+        this.fleetName = fleetName
+        this.fleetShips = [],
+        this.maxShips = 5,
+        this.numOfShips = 0,
+        this.destroyed = false
+    }
+    addShip(aShip) {
+        this.fleetShips.push(aShip)
+        this.numOfShips++
+    }
+    removeSunkShips() {
+        const shipsToRemove = this.fleetShips
+            .map(aShip => aShip.hit)
+        for (let i = 0; i < shipsToRemove.length; i++) {
+            if (shipsToRemove[i] === 5) {
+                this.fleetShips.shift(i)
+                this.numOfShips--
+            }
+        }
+    }
+    isDestroyed(){
+        if(this.fleetShips.length = 0){
+            this.destroyed = true
+            return `${this.fleetName} is destroyed`
+        }
+    }
+}
 
-const aShipOne = new Ship('ismail', 5, 6)
-const two = new Ship('Vnae', 2, 3)
-console.log(two.name)
-
-console.log(aShipOne.name)
-
-// module.exports = aShip
+module.exports = Ship
