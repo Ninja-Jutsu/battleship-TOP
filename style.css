@@ -1,0 +1,91 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#body-container {
+    background-color: rgb(236, 234, 234);
+    margin: 30px;
+    height: 50vh;
+    width: 50vw;
+}
+
+
+/* Ships Options */
+#option-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    width: 100%;
+    background-color: yellow;
+    margin-top: 10px;
+}
+
+.destroyer-sample {
+    width: 40px;
+    height: 20px;
+    background-color: purple;
+}
+
+.submarine-sample {
+    width: 60px;
+    height: 20px;
+    background-color: blue;
+}
+
+.cruiser-sample {
+    width: 60px;
+    height: 20px;
+    background-color: orange;
+}
+
+.battleship-sample {
+    width: 80px;
+    height: 20px;
+    background-color: red;
+}
+
+.carrier-sample {
+    width: 100px;
+    height: 20px;
+    background-color: green;
+}
+
+/* GameBoards */
+#gameboards-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+    background-color: lightpink;
+}
+
+#player-board {
+    width: 200px;
+    height: 200px;
+    background-color: lightsalmon;
+}
+
+#computer-board {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(229, 192, 177);
+}
+
+#computer-board,
+#player-board {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.box {
+    width: 20px;
+    height: 20px;
+    border: 0.1px solid black;
+}
