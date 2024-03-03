@@ -111,3 +111,11 @@
 button {
     padding: 5px 10px;
 }
+
+.boom {
+    background-color: red;
+}
+
+.empty{
+    background-color: grey;
+}
