@@ -11,15 +11,15 @@
     margin: 30px;
     height: 50vh;
     width: 50vw;
+    min-width: 500px;
 }
-
 
 /* Ships Options */
 #option-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 50px;
+    height: 110px;
     width: 100%;
     background-color: yellow;
     margin-top: 10px;
@@ -30,10 +30,16 @@
     height: 20px;
     background-color: purple;
 }
+.destroyer {
+    background-color: purple;
+}
 
 .submarine-sample {
     width: 60px;
     height: 20px;
+    background-color: blue;
+}
+.submarine{
     background-color: blue;
 }
 
@@ -43,15 +49,27 @@
     background-color: orange;
 }
 
+.cruiser{
+    background-color: orange;
+}
+
 .battleship-sample {
     width: 80px;
     height: 20px;
     background-color: red;
 }
 
+.battleship{
+    background-color: red;
+}
+
 .carrier-sample {
     width: 100px;
     height: 20px;
+    background-color: green;
+}
+
+.carrier{
     background-color: green;
 }
 
@@ -84,8 +102,12 @@
 }
 
 
-.box {
+.block {
     width: 20px;
     height: 20px;
     border: 0.1px solid black;
+}
+
+button {
+    padding: 5px 10px;
 }
