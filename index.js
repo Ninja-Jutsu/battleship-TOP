@@ -73,7 +73,6 @@ const shipsNames = ['destroyer', 'submarine', 'cruiser', 'battleship', 'carrier'
 
 let notDropped
 
-
 function addShipToBoard(user, ship, startId) {
     const boardBlock = Array.from(document.querySelectorAll(`#${user} div`))
 
@@ -162,7 +161,6 @@ const battleInfo = document.getElementById('battle-info')
 const turnInfo = document.getElementById('display-turn')
 const startBtn = document.getElementById('start-button')
 
-
 function startGame() {
     const allShips = Array.from(document.querySelectorAll('#option-container div'))
     if (allShips.length != 0) {
@@ -181,18 +179,15 @@ let comHits = []
 let playerSunkShips = []
 let computerSunkShips = []
 
-
-
 function handleHittingClick(e) {
+
     if (!gameOver) {
         const clickedBlock = e.target
         if (clickedBlock.classList.contains('taken')) {
             clickedBlock.classList.add('boom') // could also remove taken was boomed
             battleInfo.innerText = 'You Hit the computer ship'
-            comHits.push(e.target.classList[1])
-            console.log(comHits)
-            // checkScore('player', playerHits, playerSunkShips)
-            checkScore('player', comHits, computerSunkShips)
+            playerHits.push(e.target.classList[1])
+            checkScore('player', playerHits, computerSunkShips)
 
         } else {
             clickedBlock.classList.add('empty')
@@ -224,9 +219,9 @@ function computerGo() {
             else if (hitBlock.classList.contains('taken')) {
                 hitBlock.classList.add('boom')
                 battleInfo.innerHTML = 'Your Ship Got Hit!'
-                playerHits.push(hitBlock.classList[1])
-                // checkScore('computer', comHits, computerSunkShips)
-                checkScore('player', comHits, computerSunkShips)
+                comHits.push(hitBlock.classList[1])
+                // checkScore('player', comHits, computerSunkShips)
+                checkScore('computer', comHits, playerSunkShips)
 
             }
             else if (!hitBlock.classList.contains('taken')) {
@@ -247,22 +242,25 @@ function computerGo() {
 }
 
 
-function checkScore(userBoard, userHits, userSunkShips) {
+// player, playerHits, computerSunkShips
+function checkScore(userBoard, userHits, enemySunkShips) {
     function checkShip(shipName, shipLength) {
+        let sunkShipArray = userHits.filter(storedShip => storedShip === shipName)
         if (
-            userHits.filter(storedShip => storedShip === shipName).length === shipLength// this means the ship has sunk
+            sunkShipArray.length === shipLength// this means the ship has sunk
         ) {
-            console.log(userHits.filter(storedShip => storedShip === shipName).length === shipLength)
             battleInfo.innerText = `You sunk the ${userBoard}'s ${shipName}`
-            if (userBoard === 'computer'){ // filter out the names of the sunk ships from the hits
+            if (userBoard === 'player') { // filter out the names of the sunk ships from the hits
                 playerHits = userHits.filter(storedShipName => storedShipName !== shipName)
             }
-            if(userBoard === 'player') {
+            if (userBoard === 'computer') {
                 comHits = userHits.filter(storedShipName => storedShipName !== shipName)
             }
-            userSunkShips.push(shipName) // add the sunk ship to each player's sunk ships array
+            enemySunkShips.push(shipName) // add the sunk ship to each player's sunk ships array
         }
     }
+
+    // this should use the class Ship
     checkShip('destroyer', 2)
     checkShip('submarine', 3)
     checkShip('cruiser', 3)
