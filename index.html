@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="index.js" type="module" defer></script>
+    <title>Battle-Ship</title>
+</head>
+
+<body>
+    <div id="body-container">
+
+        <div id="game-info">
+            <p>Turn: <span id="display-turn"></span></p>
+            <p>Battle Info: <span id="battle-info"></span></p>
+        </div>
+
+        <div id="gameboards-container">
+            <div id="player-board" class="game-board"></div>
+            <div id="computer-board" class="game-board"></div>
+        </div>
+
+        <div id="option-container">
+            <div class="destroyer-sample destroyer" draggable="true"></div>
+            <div class="submarine-sample submarine" draggable="true"></div>
+            <div class="cruiser-sample cruiser" draggable="true"></div>
+            <div class="battleship-sample battleship" draggable="true"></div>
+            <div class="carrier-sample carrier" draggable="true"></div>
+        </div>
+
+        <div id="buttons">
+            <button id="flip-button">Flip</button>
+            <button id="start-button">Start</button>
+        </div>
+    </div>
+</body>
+
+</html>
