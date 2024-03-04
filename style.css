@@ -119,3 +119,9 @@ button {
 .empty{
     background-color: grey;
 }
+
+/* Enemy board */
+
+#computer-board div{ 
+    background-color: rgb(229, 192, 177);
+}

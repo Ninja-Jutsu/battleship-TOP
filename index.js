@@ -162,12 +162,16 @@ const turnInfo = document.getElementById('display-turn')
 const startBtn = document.getElementById('start-button')
 
 function startGame() {
-    const allShips = Array.from(document.querySelectorAll('#option-container div'))
-    if (allShips.length != 0) {
-        battleInfo.innerHTML = 'Place all your ships first!'
-    } else {
-        battleInfo.innerHTML = 'Go Go Go'
-        computerBoardBlocks.forEach(block => block.addEventListener('click', handleHittingClick))
+    if (playerTurn == undefined) {
+        const allShips = Array.from(document.querySelectorAll('#option-container div'))
+        if (allShips.length != 0) {
+            battleInfo.innerHTML = 'Place all your ships first!'
+        } else {
+            turnInfo.innerText = 'Your Go!'
+            battleInfo.innerText = 'The Game has started'
+            computerBoardBlocks.forEach(block => block.addEventListener('click', handleHittingClick))
+            playerTurn = true
+        }
     }
 }
 
@@ -185,12 +189,14 @@ function handleHittingClick(e) {
         const clickedBlock = e.target
         if (clickedBlock.classList.contains('taken')) {
             clickedBlock.classList.add('boom') // could also remove taken was boomed
+            clickedBlock.style.backgroundColor = 'red'
             battleInfo.innerText = 'You Hit the computer ship'
             playerHits.push(e.target.classList[1])
             checkScore('player', playerHits, computerSunkShips)
-
+            findWinner('player', computerSunkShips)
         } else {
             clickedBlock.classList.add('empty')
+            clickedBlock.style.backgroundColor = 'grey'
             battleInfo.innerHTML = 'Nothing hit'
         }
         playerTurn = false
@@ -222,7 +228,7 @@ function computerGo() {
                 comHits.push(hitBlock.classList[1])
                 // checkScore('player', comHits, computerSunkShips)
                 checkScore('computer', comHits, playerSunkShips)
-
+                findWinner('computer', playerSunkShips)
             }
             else if (!hitBlock.classList.contains('taken')) {
                 hitBlock.classList.add('empty')
@@ -252,25 +258,45 @@ function checkScore(userBoard, userHits, enemySunkShips) {
             battleInfo.innerText = `You sunk the ${userBoard}'s ${shipName}`
             if (userBoard === 'player') { // filter out the names of the sunk ships from the hits
                 playerHits = userHits.filter(storedShipName => storedShipName !== shipName)
+                battleInfo.innerText = `You sunk the computer's ${shipName}`
             }
             if (userBoard === 'computer') {
                 comHits = userHits.filter(storedShipName => storedShipName !== shipName)
+                battleInfo.innerText = `The computer sunk your ${shipName}`
             }
             enemySunkShips.push(shipName) // add the sunk ship to each player's sunk ships array
         }
     }
 
     // this should use the class Ship
-    checkShip('destroyer', 2)
-    checkShip('submarine', 3)
-    checkShip('cruiser', 3)
-    checkShip('battleship', 4)
-    checkShip('carrier', 5)
-
+    for (let ship in ships) {
+        let shipName = ships[ship].name
+        let shipLength = ships[ship].length
+        checkShip(shipName, shipLength)
+    }
 
     console.log('player', playerHits)
     console.log('playerSunkShips', playerSunkShips)
 
     console.log('COM', comHits)
     console.log('Com Sunk Ships', computerSunkShips)
+}
+
+function findWinner(user, enemySunkShips) {
+    if (enemySunkShips.length === 5) {
+        battleInfo.innerText = `${user} has sunk all enemy's ships!`
+        setTimeout(() => {
+            battleInfo.innerText = `${user} has won!`
+        }, 500)
+        gameOver = true
+    }
+    endGame(user)
+}
+
+function endGame(user) {
+    if (gameOver) {
+        computerBoardBlocks.forEach(block => block.removeEventListener('click', handleHittingClick))
+        battleInfo.innerText = `${user} Has Won The Game!
+        Game Over`
+    }
 }
