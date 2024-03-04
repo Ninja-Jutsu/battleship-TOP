@@ -1,16 +1,6 @@
-//+ Create Board Boxes:
-
-function createBoxes(userBoard) {
-    let selectedBoard = document.getElementById(userBoard)
-    for (let i = 0; i < 100; i++) {
-        const box = document.createElement('div');
-        box.classList.add('block')
-        box.id = i;
-        selectedBoard.appendChild(box)
-    }
-}
-createBoxes('player-board')
-createBoxes('computer-board')
+import createBlocks from './gameBoard.js'
+createBlocks('player-board')
+createBlocks('computer-board')
 
 //+ Make the option flip Horizon and Vert:
 
