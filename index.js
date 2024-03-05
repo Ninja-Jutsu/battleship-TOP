@@ -6,7 +6,6 @@ import flipShips from './flipFunc.js'
 flipShips()
 flipBtn.addEventListener('click', function () { flipShips() })
 
-
 //+ Make ships with Ship Class:
 import {makeShip} from './makeShip.js'
 
