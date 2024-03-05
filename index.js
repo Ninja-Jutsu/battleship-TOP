@@ -17,41 +17,8 @@ function flipShips() {
 flipShips()
 
 flipBtn.addEventListener('click', flipShips)
-class Ship { // Ships creator class
-    constructor(name, length) {
-        this.name = name,
-            this.length = length,
-            this.coords = [],
-            this.hit = 0,
-            this.sunk = false
-    }
-    changeName(newName) {
-        this.name = newName
-        return this.name
-    }
-    changeLength(num = 0) {
-        this.length = this.length + num
-        return this.length
-    }
-    setPositions(coord1, coord2) {
-        this.coords = [coord1, coord2]
-    }
-    undoPosition() {
-        this.coords = []
-    }
-    isHit() {
-        if (this.hit < this.length) {
-            this.hit++
-        }
-        return this.hit
-    }
-    isSunk() {
-        if (this.hit === this.length) {
-            this.sunk = true
-        }
-        return this.sunk
-    }
-}
+
+import Ship from './makeShip.js'
 
 const destroyer = new Ship('destroyer', 2)
 const submarine = new Ship('submarine', 3)
@@ -257,7 +224,6 @@ function checkScore(userBoard, userHits, enemySunkShips) {
             enemySunkShips.push(shipName) // add the sunk ship to each player's sunk ships array
         }
     }
-
     // this should use the class Ship
     for (let ship in ships) {
         let shipName = ships[ship].name
