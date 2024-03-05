@@ -9,8 +9,10 @@ export default function createBlocks(userBoard) {
         selectedBoard.appendChild(box)
     }
 }
-
 let notDropped
+
+createBlocks('player-board')
+createBlocks('computer-board')
 
 export function addShipToBoard(user, ship, startId) {
     const boardBlock = Array.from(document.querySelectorAll(`#${user} div`))

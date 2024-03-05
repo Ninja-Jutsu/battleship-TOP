@@ -1,9 +1,4 @@
-import createBlocks from './gameBoard.js'
-createBlocks('player-board')
-createBlocks('computer-board')
-
 //+ Make the option flip Horizon and Vert:
-const allShips = Array.from(document.querySelectorAll('#option-container div'))
 const flipBtn = document.getElementById('flip-button')
 
 //+ Flip Option Ships:
@@ -12,46 +7,16 @@ flipShips()
 flipBtn.addEventListener('click', function () { flipShips() })
 
 //+ Make ships with Ship Class:
-import Ship from './makeShip.js'
+import Ship , {makeShip} from './makeShip.js'
 const destroyer = new Ship('destroyer', 2)
 const submarine = new Ship('submarine', 3)
 const cruiser = new Ship('cruiser', 3)
 const battleship = new Ship('battleship', 4)
 const carrier = new Ship('carrier', 5)
-const ships = [destroyer, submarine, cruiser, battleship, carrier]
+const ships = makeShip()
 
-let notDropped
-
-import { addShipToBoard } from './gameBoard.js'
-
-ships.forEach(ship => addShipToBoard('computer-board', ship))
-
-// Drag player's ships:
-let draggedShipName
-let draggedShipNode
-allShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart))
-function dragStart(e) {
-    notDropped = false
-    draggedShipNode = e.target
-    draggedShipName = e.target.classList[1]
-}
-
-const playerBoardBlocks = Array.from(document.querySelectorAll(`#player-board div`))
-playerBoardBlocks.forEach(block => {
-    block.addEventListener('dragover', dragOver)
-    block.addEventListener('drop', dropShip)
-})
-
-function dragOver(e) {
-    e.preventDefault()
-}
-
-function dropShip(e) {
-    let shipNames = ships.map(ship => ship.name)
-    const ship = shipNames.indexOf(draggedShipName)
-    addShipToBoard('player-board', ships[ship], e.target.id)
-    if (!notDropped) draggedShipNode.remove()
-}
+//+ AddShipsToBoards: 
+ import dropShip from './dragElements.js' // enough to just import anything to link files
 
 // Game Logic:
 let gameOver = false
