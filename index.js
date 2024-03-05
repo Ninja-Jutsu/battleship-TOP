@@ -3,79 +3,26 @@ createBlocks('player-board')
 createBlocks('computer-board')
 
 //+ Make the option flip Horizon and Vert:
-
-// Target Elements:
 const allShips = Array.from(document.querySelectorAll('#option-container div'))
 const flipBtn = document.getElementById('flip-button')
-//Set Vars:
-let angle = 0
 
-function flipShips() {
-    allShips.forEach(optionShip => optionShip.style.transform = `rotate(${angle}deg)`)
-    angle = angle === 0 ? 90 : 0
-}
+//+ Flip Option Ships:
+import flipShips from './flipFunc.js'
 flipShips()
+flipBtn.addEventListener('click', function () { flipShips() })
 
-flipBtn.addEventListener('click', flipShips)
-
+//+ Make ships with Ship Class:
 import Ship from './makeShip.js'
-
 const destroyer = new Ship('destroyer', 2)
 const submarine = new Ship('submarine', 3)
 const cruiser = new Ship('cruiser', 3)
 const battleship = new Ship('battleship', 4)
 const carrier = new Ship('carrier', 5)
 const ships = [destroyer, submarine, cruiser, battleship, carrier]
-const shipsNames = ['destroyer', 'submarine', 'cruiser', 'battleship', 'carrier']
 
 let notDropped
 
-function addShipToBoard(user, ship, startId) {
-    const boardBlock = Array.from(document.querySelectorAll(`#${user} div`))
-
-    let randomStartIndex = Math.floor(Math.random() * 100)
-    let startIndex = startId ? startId : randomStartIndex
-    let randomBoolean = Math.random() > 0.5
-    let isHorizontal = user === 'player-board' ? angle : randomBoolean
-    let validStart = isHorizontal ? startIndex <= 100 - ship.length ?
-        startIndex : 100 - ship.length :
-        // Handle Vertical
-        startIndex <= 100 - 10 * ship.length ?
-            startIndex : startIndex - ship.length * 10 + 10
-    const shipBlocks = []
-
-    for (let i = 0; i < ship.length; i++) {
-        if (isHorizontal) {
-            shipBlocks.push(boardBlock[Number(validStart) + i])
-        }
-        else {
-            shipBlocks.push(boardBlock[Number(validStart) + (i * 10)])
-        }
-    }
-
-    let valid
-
-    if (isHorizontal) {
-        valid = shipBlocks[0].id % 10 < 10 - ship.length + 1
-    }
-    else {
-        shipBlocks.every((_shipBlock, index) => {
-            valid = shipBlocks[0].id < 90 + (10 * index + 1)
-        })
-    }
-
-    const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'))
-
-    if (valid && notTaken) {
-        shipBlocks.forEach(shipBlock => {
-            shipBlock.classList.add(ship.name)
-            shipBlock.classList.add('taken')
-        })
-    } else {
-        if (user === 'computer-board') addShipToBoard(user, ship)
-        if (user === 'player-board') notDropped = true
-    }
-}
+import { addShipToBoard } from './gameBoard.js'
 
 ships.forEach(ship => addShipToBoard('computer-board', ship))
 
@@ -100,12 +47,10 @@ function dragOver(e) {
 }
 
 function dropShip(e) {
-    const startId = e.target.id
-    const ship = shipsNames.indexOf(draggedShipName)
-    addShipToBoard('player-board', ships[ship], startId)
-    if (!notDropped) {
-        draggedShipNode.remove()
-    }
+    let shipNames = ships.map(ship => ship.name)
+    const ship = shipNames.indexOf(draggedShipName)
+    addShipToBoard('player-board', ships[ship], e.target.id)
+    if (!notDropped) draggedShipNode.remove()
 }
 
 // Game Logic:
